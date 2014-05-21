@@ -14,6 +14,7 @@ ALBUM_NAME = URL_COMPONENTS[URL_COMPONENTS.index('album')+1]
 
 # instantiate album
 ALBUM = models.Album(ALBUM_NAME, DIR_NAME)
+current_page = request.Page(URL)
 
 running = True
 
@@ -23,13 +24,13 @@ flushTimer = time.time()
 totalCount = 0
 
 while running:
-    current_page = request.Page(URL)
-
     img_url = current_page.extract_img()
 
+    # if for some reason, we have an error where we can't parse the image
     if not img_url:
         continue
 
+    # save extracted img
     ALBUM.save(img_url)
     totalCount += 1
 
@@ -37,10 +38,11 @@ while running:
         print "Saved 10 images in %s seconds" % (round(time.time() - flushTimer, 3))
         flushTimer = time.time()    # reset flushTimer
 
-    current_page = request.Page(current_page.extract_next())
-    
-    if not current_page:
+    next_page = current_page.extract_next()
+    if not len(next_page):
         running = False
+    else:
+        current_page = request.Page(next_page)
 
-print "Album download complete.\nTotal number of images: %s\nTotal time: %s" % (totalCount, round(time.time() - startTime, 3))
+print "Album download complete.\nTotal number of images: %s\nTotal time: %s seconds" % (totalCount, round(time.time() - startTime, 3))
 

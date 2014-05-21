@@ -8,9 +8,9 @@ from pyquery import PyQuery as pq
 class Page(object):
     def __init__(self, url):
         self.url = url
-        self.base = url.split('//')[0] + url.split('//')[1].split('/')[0]
+        self.base = url.split('//')[1].split('/')[0]
 
-        self.d = pq(url = self.url)
+        self.d = pq(self.url)
 
     def extract_img(self, d_id='single_picture'):
         '''
@@ -31,10 +31,10 @@ class Page(object):
         '''
         extract the url of the next page using the existing next button
         '''
-        print self.d('a#' + d_id)
-        try:
-            return self.base + self.d('a#' + d_id).attr('href')
-        except IndexError:
+        next_url = self.d('a#' + d_id).attr('href')
+        if not next_url:
             print 'No more images left in the album'
-            return None
+            return ''
+        else: 
+            return 'http://' + self.base + next_url
 
