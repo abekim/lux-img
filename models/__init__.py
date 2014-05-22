@@ -25,6 +25,9 @@ class Album(object):
         # aliases
         self.save = self.save_img_from_url
 
+        # buffer to leave room for broken ones
+        self.buffer = 0
+
     def save_img_from_url(self, img_url):
         try:
             import urllib2 as urllib
@@ -35,7 +38,7 @@ class Album(object):
         # save image
         content = StringIO(urllib.urlopen(img_url).read())
         img = Image.open(content)
-        img.save(self.dir + str(self.count + 1) + self.ext)
+        img.save(self.dir + str(self.count + 1 + self.buffer) + self.ext)
 
     def get_img(self, img_name='1'):
         return Image.open(self.dir + str(img_name) + self.ext).show()

@@ -21,7 +21,8 @@ class Page(object):
             
             # get url components to get the original image
             url_comps = url.split('.')
-            url_comps.pop(len(url_comps) - 2)
+            if len(url_comps) > 4:
+                url_comps.pop(len(url_comps) - 2)
 
             return '.'.join(url_comps)
         except IndexError:
