@@ -4,4 +4,4 @@
 brew install libjpeg libpng
 
 # Install necessary Python dependencies
-pip install -r -U requirements.txt
+pip install -Ur requirements.txt
