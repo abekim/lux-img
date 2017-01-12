@@ -13,8 +13,8 @@ class Page(object):
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_2) AppleWebKit/602.3.12 (KHTML, like Gecko) Version/10.0.2 Safari/602.3.12'
         }
-        self.image_selector = selectors.get('image', 'img#single_picture')
-        self.next_selector = selectors.get('next', 'a#next')
+        self.image_selector = selectors.get('image', 'img#single_picture') or 'img#single_picture'
+        self.next_selector = selectors.get('next', 'a#next') or 'a#next'
 
         self.d = pq(self.url, headers=self.headers)
 
